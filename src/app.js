@@ -9,7 +9,7 @@ const ClassifyService = require('./services/classify');
 const Classifier = require('./classifier');
 const debug = require('debug')('VGI:app');
 
-const PORT = 3030;
+const PORT = process.env.PORT || 3030;
 
 const classifier = new Classifier().getClassifier();
 const answerService = new AnswerService(classifier);
