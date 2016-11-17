@@ -1,33 +1,28 @@
 'use strict';
 
+const path = require('path');
+const serveStatic = require('feathers').static;
+const favicon = require('serve-favicon');
+const compress = require('compression');
 const feathers = require('feathers');
+const configuration = require('feathers-configuration');
+const hooks = require('feathers-hooks');
 const rest = require('feathers-rest');
 const bodyParser = require('body-parser');
-const AnswerService = require('./services/answer');
-const QuestionsService = require('./services/questions');
-const ClassifyService = require('./services/classify');
-const Classifier = require('./classifier');
-const debug = require('debug')('VGI:app');
 
-const PORT = process.env.PORT || 3030;
+const middleware = require('./middleware');
+const services = require('./services');
 
-const classifier = new Classifier().getClassifier();
-const answerService = new AnswerService(classifier);
-const questionsService = new QuestionsService(classifier);
-const classifyService = new ClassifyService(classifier);
+const app = feathers();
 
-// train classifier once all services have been created
-classifier.train();
+app.configure(configuration(path.join(__dirname, '..')));
 
-const app = feathers()
-  .configure(rest())
+app.use(compress())
   .use(bodyParser.json())
-  .use(bodyParser.urlencoded({ extended: true }));
+  .use(bodyParser.urlencoded({ extended: true }))
+  .configure(hooks())
+  .configure(rest())
+  .configure(services)
+  .configure(middleware);
 
-app.use('/answer', answerService);
-app.use('/questions', questionsService);
-app.use('/classify', classifyService);
-
-app.listen(PORT, () => {
-  console.log('server listening on port', PORT);
-});
+module.exports = app;
