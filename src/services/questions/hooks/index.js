@@ -1,5 +1,7 @@
 'use strict';
 
+const mapOptionsToAnswers = require('./mapOptionsToAnswers');
+
 const setDefaultQueryParams = require('./setDefaultQueryParams');
 const addDefaultResults = require('./addDefaultResults');
 
@@ -10,7 +12,7 @@ exports.before = {
   all: [],
   find: [setDefaultQueryParams()],
   get: [],
-  create: [],
+  create: [mapOptionsToAnswers()],
   update: [],
   patch: [],
   remove: []
