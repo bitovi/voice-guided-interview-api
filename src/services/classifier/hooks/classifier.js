@@ -1,16 +1,13 @@
 'use strict';
 
 const BrainJSClassifier = require('natural-brain');
+const debug = require('debug')('VGI:classifier/hooks/classifier');
 
-const debug = require('debug')('VGI:classifier');
-
-class Classifier {
-  trainHook({ textProp, classificationProp }) {
-    const classifier = this;
-
+module.exports = {
+  train() {
     return function(hook) {
       const service = this;
-      classifier._classifier = new BrainJSClassifier();
+      service._classifier = new BrainJSClassifier();
 
       debug(`params: ${JSON.stringify(hook.params)}, result: ${JSON.stringify(hook.result)}`);
 
@@ -19,23 +16,23 @@ class Classifier {
         .then(results => {
           debug(`results: ${JSON.stringify(results)}`);
 
-          results.forEach(({ [textProp]: text, [classificationProp]: classification }) => {
+          results.forEach(({ [service.textProp]: text, [service.classificationProp]: classification }) => {
             debug(`adding classification: ${text} => ${classification}`);
-            classifier._classifier.addDocument(text, classification);
+            service._classifier.addDocument(text, classification);
           });
 
-          classifier._classifier.train();
+          service._classifier.train();
         });
     };
-  }
+  },
 
-  getClassificationsHook({ textProp }) {
-    const classifier = this;
+  getClassifications() {
     const normalize = ans => ({ answer: ans.label, certainty: ans.value });
     const byCertainty = (a, b) => b.certainty - a.certainty;
 
     return function(hook) {
-      const { [ textProp ]: text, useClassifier = true } = hook.params.query;
+      const service = this;
+      const { [ service.textProp ]: text, useClassifier = true } = hook.params.query;
       debug(`getting classifications for ${text} ${!useClassifier ? 'NOT using classifier' : 'using classifier'}`);
 
       if (!useClassifier) {
@@ -43,12 +40,10 @@ class Classifier {
         return;
       }
 
-      hook.result = classifier._classifier
+      hook.result = service._classifier
         .getClassifications(text)
         .map(normalize)
         .sort(byCertainty);
     };
   }
-}
-
-module.exports = new Classifier();
+};

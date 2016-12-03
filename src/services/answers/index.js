@@ -1,22 +1,14 @@
 'use strict';
 
-const service = require('feathers-memory');
-const hooks = require('./hooks');
+const createClassifierService = require('../classifier');
 
 module.exports = function(){
   const app = this;
 
-  let options = {};
+  let options = {
+    textProp: 't',
+    classificationProp: 'answer'
+  };
 
-  // Initialize our service with any options it requires
-  app.use('/answers', service(options));
-
-  // Get our initialize service to that we can bind hooks
-  const answersService = app.service('/answers');
-
-  // Set up our before hooks
-  answersService.before(hooks.before);
-
-  // Set up our after hooks
-  answersService.after(hooks.after);
+  createClassifierService(app, '/answers', options);
 };

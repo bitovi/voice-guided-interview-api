@@ -1,12 +1,12 @@
 'use strict';
 
 const globalHooks = require('../../../hooks');
-const classifier = require('../../../classifier');
 const hooks = require('feathers-hooks');
+const classifierHooks = require('./classifier');
 
 exports.before = {
   all: [],
-  find: [ classifier.getClassificationsHook({ textProp: 't' }) ],
+  find: [ classifierHooks.getClassifications() ],
   get: [],
   create: [],
   update: [],
@@ -18,7 +18,7 @@ exports.after = {
   all: [],
   find: [],
   get: [],
-  create: [ classifier.trainHook({ textProp: 't', classificationProp: 'answer' }) ],
+  create: [ classifierHooks.train() ],
   update: [],
   patch: [],
   remove: []
