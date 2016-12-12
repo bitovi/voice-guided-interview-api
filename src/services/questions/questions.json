@@ -1,0 +1,79 @@
+[{
+  "prompt": "What would you like for lunch?",
+  "options": [
+    "Sandwich",
+    "Pizza",
+    "Burger"
+  ],
+  "category": "*"
+}, {
+  "prompt": "What kind of bread would you like?",
+  "options": [
+    "Whole Wheat",
+    "White",
+    "Rye"
+  ],
+  "category": "Sandwich"
+}, {
+  "prompt": "What kind of meat would you like?",
+  "options": [
+    "Ham",
+    "Turkey",
+    "Salami"
+  ],
+  "category": "Sandwich"
+}, {
+  "prompt": "What kind of chips would you like?",
+  "options": [
+    "BBQ Chips",
+    "Corn Chips",
+    "Pretzels"
+  ],
+  "category": "Sandwich"
+}, {
+  "prompt": "What kind of meat would you like on your pizza?",
+  "options": [
+    "Sausage",
+    "Pepperoni",
+    "Chicken"
+  ],
+  "category": "Pizza"
+}, {
+  "prompt": "How much cheese would you like?",
+  "options": [
+    "Regular Cheese",
+    "Extra Cheese"
+  ],
+  "category": "Pizza"
+}, {
+  "prompt": "What kind of sauce would you like?",
+  "options": [
+    "Marinara",
+    "Alfredo"
+  ],
+  "category": "Pizza"
+}, {
+  "prompt": "What kind of burger would you like?",
+  "options": [
+    "Beef",
+    "Turkey",
+    "Vegetarian"
+  ],
+  "category": "Burger"
+}, {
+  "prompt": "What kind of cheese would you like?",
+  "options": [
+    "American",
+    "Cheddar",
+    "Pepper Jack"
+  ],
+  "category": "Burger"
+}, {
+  "prompt": "What kind of mayo would you like?",
+  "options": [
+    "Regular Mayo",
+    "Spicy Mayo",
+    "No Mayo"
+  ],
+  "category": "Burger"
+}]
